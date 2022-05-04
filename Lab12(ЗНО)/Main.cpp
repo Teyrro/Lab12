@@ -13,7 +13,7 @@ bool Compare(double a, double b) {
 }
 
 void main() {
-	ZNO firstTry(-4, 20, function, Compare, pow(10, -5));
+	ZNO firstTry(0, 5, function, Compare, pow(10, -5));
 	firstTry.FindMinMaxFunc();
 	firstTry.CreateGraph(0.01);
 

@@ -7,7 +7,7 @@
 #include <fstream>
 
 class ZNO {
-	std::vector<double> proportions{ 0.382, 0.618 };
+	std::vector<double> proportions{ 0.382, 0.618, 1.618 };
 	std::pair<double, double> interval, answer;
 	std::vector<double> equation;
 	std::function<double(double)> Func;
@@ -26,18 +26,23 @@ public:
 
 	void FindMinMaxFunc() {
 		std::vector<double> tempInt{ interval.first, interval.second };
-		double temp1, temp2, delta(0);
+		double x1, x2, delta(0);
 		int i(0);
 		do {
 			delta = tempInt[i];
-			temp1 = tempInt[0] + proportions[0] * (tempInt[1] - tempInt[0]);
-			temp2 = tempInt[0] + proportions[1] * (tempInt[1] - tempInt[0]);
+			//x1 = tempInt[0] + proportions[0] * (tempInt[1] - tempInt[0]);
+			//x2 = tempInt[0] + proportions[0] * (tempInt[1] - tempInt[0]);
+			x1 = tempInt[1] - ((tempInt[1] - tempInt[0]) / proportions[2]);
+			x2 = tempInt[0] + ((tempInt[1] - tempInt[0]) / proportions[2]);
 
-			std::cout << "lamda_1 - (" << temp1 << ") lamda_2 - (" << temp2 << ")\n";
-			std::cout << "Func(lamda_1) - (" << Func(temp1) << ") > " << "Func(lamda_2) - (" << Func(temp2) << ") ";
 
-			i = Compare(Func(temp1), Func(temp2)) ? 0 : 1;
-			tempInt[i] = Compare(Func(temp1), Func(temp2)) ? temp1 : temp2;
+			double y1(Func(x1)), y2(Func(x2));
+
+			std::cout << "lamda_1 - (" << x1 << ") lamda_2 - (" << x2 << ")\n";
+			std::cout << "Func(lamda_1) - (" << y1 << ") > " << "Func(lamda_2) - (" << y2 << ") ";
+
+			i = Compare(y1, y2) ? 0 : 1;
+			tempInt[i] = Compare(y1, y2) ? x1 : x2;
 
 			std::cout << "=> " << tempInt[i] << "\n";
 			std::cout << abs((tempInt[1] - tempInt[0]) / 2) << " < (" << eps << ") \n\n";
